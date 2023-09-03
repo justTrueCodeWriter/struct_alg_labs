@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include <string>
+#include <stdlib.h>
+#include <string.h>
 
 #define STUD_STRING_BUFFER 20
 #define SUBJECTS_BUFFER 5
@@ -20,7 +21,9 @@ const char *FILENAME = "students.txt";
 
 int get_students_amount();
 int get_data(Student *students, int studentsAmount);
+void print_person(Student *students, int index);
 void print_table(Student *students, int studentsAmount);
+void search_surname(Student *students, int studentsAmount);
 
 int main() {
 
@@ -30,7 +33,28 @@ int main() {
 	Student students[studentsAmount];
 	if (get_data(students, studentsAmount) == ERROR_VALUE) return -1;
 
-	print_table(students, studentsAmount);
+	int userChoice = 0;
+	do {
+		printf("Choose option:\nPrint table(1), Sort table by name(2), Sort table by column(3), Find person by surname(4), Exit(5)\n>>");
+		scanf("%d", &userChoice);
+		switch (userChoice) {
+			case 1:
+				print_table(students, studentsAmount);
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				search_surname(students, studentsAmount);
+				break;
+			case 5:
+				exit(1);
+			default: printf("INCORRECT: choice must be (1 <= userChoice <= 4)\n");
+		}
+	}while(userChoice < 1 || userChoice > 4);
+
+	//TODO: add wirking cycle
 
 	return 0;
 
@@ -80,15 +104,43 @@ int get_data(Student *students, int studentsAmount) {
 
 }
 
+void print_person(Student *students, int index) {
+	printf(" %d %-20s\t %-20s\t %-20s\t %d\t ", 
+			students[index].id, students[index].surname, 
+			students[index].name, students[index].patronymic, 
+			students[index].creditBookId);
+	for (int j = 0; j < SUBJECTS_BUFFER; j++) {
+		printf("%d ", students[index].marks[j]);
+	}
+	printf("\n");
+}
+
 void print_table(Student *students, int studentsAmount) {
 
+	printf("ID Surname\t\t Name\t\t\t Patronymic\t\t BookId\t A B C D E\n");
+	printf("------------------------------------------------------------------------------------------\n");
+
 	for (int i = 0; i < studentsAmount; i++) {
-		printf("%d %-5s\t \r%s\t\t %-5s\t\t ", students[i].id, students[i].surname, 
-							students[i].name, students[i].patronymic);
-		for (int j = 0; j < SUBJECTS_BUFFER; j++) {
-			printf("%d ", students[i].marks[j]);
-		}
-		printf("\n");
+		print_person(students, i);
 	}
+
+}
+
+
+
+void search_surname(Student *students, int studentsAmount) {
+
+	char searchSurname[20];
+	printf("Enter searching surname: "); scanf("%s" , searchSurname);
+
+	printf("ID Surname\t\t Name\t\t\t Patronymic\t\t BookId\t A B C D E\n");
+	printf("------------------------------------------------------------------------------------------\n");
+	for (int i = 0; i < studentsAmount; i++) {
+		if (strstr(students[i].surname, searchSurname)) {
+			print_person(students, i);
+		}
+	}
+
+	//TODO: Add "non exist surname" massage
 
 }
