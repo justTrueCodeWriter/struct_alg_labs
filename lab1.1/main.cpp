@@ -33,6 +33,7 @@ int main() {
 	Student students[studentsAmount];
 	if (get_data(students, studentsAmount) == ERROR_VALUE) return -1;
 
+	int programCycle = true;
 	int userChoice = 0;
 	do {
 		printf("Choose option:\nPrint table(1), Sort table by name(2), Sort table by column(3), Find person by surname(4), Exit(5)\n>>");
@@ -49,10 +50,11 @@ int main() {
 				search_surname(students, studentsAmount);
 				break;
 			case 5:
-				exit(1);
+				programCycle = false;
+				break;
 			default: printf("INCORRECT: choice must be (1 <= userChoice <= 4)\n");
 		}
-	}while(userChoice < 1 || userChoice > 4);
+	}while(programCycle);
 
 	//TODO: add wirking cycle
 
@@ -135,12 +137,15 @@ void search_surname(Student *students, int studentsAmount) {
 
 	printf("ID Surname\t\t Name\t\t\t Patronymic\t\t BookId\t A B C D E\n");
 	printf("------------------------------------------------------------------------------------------\n");
+	int isRequestExist = 0;
 	for (int i = 0; i < studentsAmount; i++) {
-		if (strstr(students[i].surname, searchSurname)) {
+		if (strcasestr(students[i].surname, searchSurname)) {
+			isRequestExist = 1;
 			print_person(students, i);
 		}
 	}
 
-	//TODO: Add "non exist surname" massage
+	if (!isRequestExist) 
+		printf("Request not exist!\n");
 
 }
