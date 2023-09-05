@@ -21,8 +21,14 @@ const char *FILENAME = "students.txt";
 
 int get_students_amount();
 int get_data(Student *students, int studentsAmount);
+
 void print_person(Student *students, int index);
 void print_table(Student *students, int studentsAmount);
+
+void surname_sort(Student *students, int studentsAmount);
+void choice_subject_sort(Student *students, int studentsAmount);
+void choosed_mark_sort(Student *students, int studentsAmount, int subjectIndex);
+
 void search_surname(Student *students, int studentsAmount);
 
 int main() {
@@ -43,8 +49,10 @@ int main() {
 				print_table(students, studentsAmount);
 				break;
 			case 2:
+				surname_sort(students, studentsAmount);
 				break;
 			case 3:
+				choice_subject_sort(students, studentsAmount);
 				break;
 			case 4:
 				search_surname(students, studentsAmount);
@@ -107,7 +115,10 @@ int get_data(Student *students, int studentsAmount) {
 }
 
 void print_person(Student *students, int index) {
-	printf(" %d %-20s\t %-20s\t %-20s\t %d\t ", 
+	char space = ' ';
+	if (students[index].id > 9) space = '\0';
+
+	printf("%c%d %-20s\t %-20s\t %-20s\t %d\t ", space,
 			students[index].id, students[index].surname, 
 			students[index].name, students[index].patronymic, 
 			students[index].creditBookId);
@@ -128,7 +139,61 @@ void print_table(Student *students, int studentsAmount) {
 
 }
 
+void surname_sort(Student *students, int studentsAmount) {
 
+	for (int i = 0; i < studentsAmount-1; i++) {
+		for (int j = 0; j < studentsAmount-i-1; j++) {
+			for (int k = 0; students[i].surname[k] != '\n'; k++) {
+				if (students[j].surname[k] > students[j+1].surname[k])	{
+					Student tmp = students[j];
+					students[j] = students[j+1];
+					students[j+1] = tmp;
+				}
+			}
+		}
+	}
+
+}
+
+void choice_subject_sort(Student *students, int studentsAmount) {
+
+	char userChoice;
+
+	printf("Choose subject to sort marks:\nA - Math\nB - IT\nC - History\nD - Unix\nE - Philosophy\n>> ");
+	scanf(" %c", &userChoice);
+
+	switch (userChoice) {
+		case 'A':
+			choosed_mark_sort(students, studentsAmount, 0);
+			break;
+		case 'B':
+			choosed_mark_sort(students, studentsAmount, 1);
+			break;
+		case 'C':
+			choosed_mark_sort(students, studentsAmount, 2);
+			break;
+		case 'D':
+			choosed_mark_sort(students, studentsAmount, 3);
+			break;
+		case 'E':
+			choosed_mark_sort(students, studentsAmount, 4);
+			break;
+		default: printf("Subject doesn't exists!\n");
+	}			
+
+}
+
+void choosed_mark_sort(Student *students, int studentsAmount, int subjectIndex) {
+	for (int i = 0; i < studentsAmount-1; i++) {
+		for (int j = 0; j < studentsAmount-i-1; j++) {
+			if (students[j].marks[subjectIndex] < students[j+1].marks[subjectIndex]) {
+				Student tmp = students[j];
+				students[j] = students[j+1];
+				students[j+1] = tmp;
+			}
+		}
+	}
+}
 
 void search_surname(Student *students, int studentsAmount) {
 
