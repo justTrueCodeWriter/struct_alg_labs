@@ -42,7 +42,7 @@ int main() {
 	int programCycle = true;
 	int userChoice = 0;
 	do {
-		printf("Choose option:\nPrint table(1), Sort table by name(2), Sort table by column(3), Find person by surname(4), Exit(5)\n>>");
+		printf("Choose option:\nPrint table(1), Sort table by surname(2), Sort table by column(3), Find person by surname(4), Exit(5)\n\033[0;32m>>\033[0;0m");
 		scanf("%d", &userChoice);
 		switch (userChoice) {
 			case 1:
@@ -60,7 +60,7 @@ int main() {
 			case 5:
 				programCycle = false;
 				break;
-			default: printf("INCORRECT: choice must be (1 <= userChoice <= 4)\n");
+			default: printf("\033[0;31mINCORRECT: choice must be (1 <= userChoice <= 4)\n\033[0m");
 		}
 	}while(programCycle);
 
@@ -74,7 +74,7 @@ int get_students_amount() {
 
 	FILE* ft;
 	if ((ft = fopen(FILENAME, "rt")) == nullptr) {
-		printf("ERROR: file %s doesn't exist!\n", FILENAME);
+		printf("\033[0;31mERROR: file %s doesn't exist!\n\033[0;0m", FILENAME);
 		return -1;
 	}
 
@@ -93,7 +93,7 @@ int get_data(Student *students, int studentsAmount) {
 
 	FILE* ft;
 	if ((ft = fopen(FILENAME, "rt")) == nullptr) {
-		printf("ERROR: file %s doesn't exist!\n", FILENAME);
+		printf("\033[0;31mERROR: file %s doesn't exist!\n\033[0;0m", FILENAME);
 		return -1;
 	}
 
@@ -130,7 +130,7 @@ void print_person(Student *students, int index) {
 
 void print_table(Student *students, int studentsAmount) {
 
-	printf("ID Surname\t\t Name\t\t\t Patronymic\t\t BookId\t A B C D E\n");
+	printf("\033[0;33mID Surname\t\t Name\t\t\t Patronymic\t\t BookId\t A B C D E\n\033[0;0m");
 	printf("------------------------------------------------------------------------------------------\n");
 
 	for (int i = 0; i < studentsAmount; i++) {
@@ -143,12 +143,16 @@ void surname_sort(Student *students, int studentsAmount) {
 
 	for (int i = 0; i < studentsAmount-1; i++) {
 		for (int j = 0; j < studentsAmount-i-1; j++) {
-			for (int k = 0; students[i].surname[k] != '\n'; k++) {
+			for (int k = 0; students[j].surname[k] != '\n'; k++) {
 				if (students[j].surname[k] > students[j+1].surname[k])	{
 					Student tmp = students[j];
 					students[j] = students[j+1];
 					students[j+1] = tmp;
+					break;
 				}
+				else if (students[j].surname[k] < students[j+1].surname[k]) {
+					break;
+				}	
 			}
 		}
 	}
@@ -159,7 +163,7 @@ void choice_subject_sort(Student *students, int studentsAmount) {
 
 	char userChoice;
 
-	printf("Choose subject to sort marks:\nA - Math\nB - IT\nC - History\nD - Unix\nE - Philosophy\n>> ");
+	printf("Choose subject to sort marks:\nA - Math\nB - IT\nC - History\nD - Unix\nE - Philosophy\n\033[0;32m>>\033[0;0m");
 	scanf(" %c", &userChoice);
 
 	switch (userChoice) {
@@ -178,7 +182,7 @@ void choice_subject_sort(Student *students, int studentsAmount) {
 		case 'E':
 			choosed_mark_sort(students, studentsAmount, 4);
 			break;
-		default: printf("Subject doesn't exists!\n");
+		default: printf("\033[0;31mSubject doesn't exists!\n\033[0m");
 	}			
 
 }
@@ -195,22 +199,39 @@ void choosed_mark_sort(Student *students, int studentsAmount, int subjectIndex) 
 	}
 }
 
+bool is_request(Student *students, int studentsAmount, char *searchSurname) {
+	int isRequestExists = 0;
+	for (int i = 0; i < studentsAmount; i++) {
+		if (strcasestr(students[i].surname, searchSurname)) {
+			isRequestExists = 1;	
+			break;
+		}
+	}
+
+	return isRequestExists;
+
+}
+
 void search_surname(Student *students, int studentsAmount) {
 
 	char searchSurname[20];
+
 	printf("Enter searching surname: "); scanf("%s" , searchSurname);
 
-	printf("ID Surname\t\t Name\t\t\t Patronymic\t\t BookId\t A B C D E\n");
+	bool isRequestExists = is_request(students, studentsAmount, searchSurname);
+	if (!isRequestExists) {
+		printf("\033[0;31mRequest doesn't exists!\n\033[0m");
+		return;
+	}
+
+	printf("\033[0;33mID Surname\t\t Name\t\t\t Patronymic\t\t BookId\t A B C D E\n\033[0;0m");
 	printf("------------------------------------------------------------------------------------------\n");
-	int isRequestExist = 0;
 	for (int i = 0; i < studentsAmount; i++) {
 		if (strcasestr(students[i].surname, searchSurname)) {
-			isRequestExist = 1;
 			print_person(students, i);
 		}
 	}
 
-	if (!isRequestExist) 
-		printf("Request not exist!\n");
+	
 
 }
