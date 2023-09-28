@@ -48,6 +48,7 @@ void alg_2() {
 	print_array(arr, amountElements);
 }
 ```
+# Algorithm 3
 ```cpp
 void alg_3(int arr[], int low, int high)
 {
