@@ -15,6 +15,8 @@ struct Student {
 	int creditBookId = NULL;
 	int marks[SUBJECTS_BUFFER];
 
+	float averageMark = 0;
+
 };
 
 const char *FILENAME = "students.txt";
@@ -31,6 +33,8 @@ void choosed_mark_sort(Student *students, int studentsAmount, int subjectIndex);
 
 void search_surname(Student *students, int studentsAmount);
 
+void average_mark_menu(Student *students, int studentsAmount);
+
 int main() {
 
 	int studentsAmount = get_students_amount();
@@ -42,7 +46,7 @@ int main() {
 	int programCycle = true;
 	int userChoice = 0;
 	do {
-		printf("Choose option:\nPrint table(1), Sort table by surname(2), Sort table by column(3), Find person by surname(4), Exit(5)\n\033[0;32m>>\033[0;0m");
+		printf("Choose option:\nPrint table(1), Sort table by surname(2), Sort table by column(3), Find person by surname(4), Calc average mark(5), Exit(6)\n\033[0;32m>>\033[0;0m");
 		scanf("%d", &userChoice);
 		switch (userChoice) {
 			case 1:
@@ -58,13 +62,14 @@ int main() {
 				search_surname(students, studentsAmount);
 				break;
 			case 5:
+				average_mark_menu(students, studentsAmount);	
+				break;
+			case 6:
 				programCycle = false;
 				break;
 			default: printf("\033[0;31mINCORRECT: choice must be (1 <= userChoice <= 4)\n\033[0m");
 		}
 	}while(programCycle);
-
-	//TODO: add wirking cycle
 
 	return 0;
 
@@ -235,3 +240,34 @@ void search_surname(Student *students, int studentsAmount) {
 	
 
 }
+
+void average_mark_menu(Student *students, int studentsAmount) {
+
+	for (int i = 0; i < studentsAmount; i++) {
+		for (int j = 0; j < SUBJECTS_BUFFER; j++) {
+			students[i].averageMark += students[i].marks[j];
+		}
+		students[i].averageMark = students[i].averageMark/5.0;
+	}
+
+	int maxMarkPersonIndex;
+	float maxMark = 0;
+	for (int i = 0; i < studentsAmount; i++) {
+		if (students[i].averageMark > maxMark) {
+			maxMarkPersonIndex = i;
+			maxMark = students[i].averageMark;
+		}
+	}
+	printf("\033[0;33mID Surname\t\t Name\t\t\t Patronymic\t\t BookId\t A B C D E\n\033[0;0m");
+	printf("------------------------------------------------------------------------------------------\n");
+	for (int i = 0; i < studentsAmount; i++) {
+		if (students[i].averageMark == maxMark) {
+			print_person(students, i);
+			printf("Average max mark: %.3f\n\n", maxMark);
+		}
+	}
+	
+
+}
+
+//TODO: средний бал по предметам. Вывести студента, у которого больше.

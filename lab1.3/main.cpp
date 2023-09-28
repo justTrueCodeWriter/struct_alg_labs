@@ -101,41 +101,42 @@ void get_positive(int *arr, int *positiveElements, int *positivePositions, int s
 	}
 }
 
-/*
-void alg_3() {
-	int sizeArr;
-	printf("sizeArr>>"); scanf("%d", &sizeArr);
-
-	int arr[sizeArr];
-	fill_array(arr, sizeArr);	
-	print_array(arr, sizeArr);
-
-	int sizePositive = get_positive_amount(arr, sizeArr);	
-	int positiveElements[sizePositive];
-	int positivePositions[sizeArr];
-
-	int k = 0;
-	for (int i = 0; i < sizeArr; i++) {
-		int tmp = 0;
-		if (arr[i] >= 0) {
-			positivePositions[k] = i;
-			k++;
-		}
-
-		if (arr[i] < 0 && i != 0) {
-			tmp = arr[i];
-			arr[i] = arr[positivePositions[i-k]];
-			arr[positivePositions[i-k]] = tmp;
-			positivePositions[i] = i;
-		}
-		print_array(arr, sizeArr);
-	}
-
+void swap(int* a, int* b)
+{
+    int t = *a;
+    *a = *b;
+    *b = t;
 }
-*/
+ 
+int partition(int arr[], int low, int high)
+{
+    int pivot = arr[high];
+ 
+    int i = (low - 1);
+ 
+    for (int j = low; j <= high - 1; j++) {
+ 
+        if (arr[j] < pivot) {
+ 
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+ 
+void alg_3(int arr[], int low, int high)
+{
+    if (low < high) {
+ 
+        int pi = partition(arr, low, high);
+ 
+        alg_3(arr, low, pi - 1);
+        alg_3(arr, pi + 1, high);
+    }
+}
 
-// -456 298 4324 -8456 37298 -80024 
-// 
 
 int main() {
 
@@ -145,7 +146,17 @@ int main() {
 		switch(userChoice) {
 			case 1: alg_1(); break;
 			case 2:	alg_2(); break;
-			case 3: return 0; break;
+			case 3: {
+						int sizeArr; 
+						printf("sizeArr>>"); scanf("%d", &sizeArr);
+						int arr[sizeArr];
+						fill_array(arr, sizeArr);	
+						print_array(arr, sizeArr);
+						alg_3(arr, 0, sizeArr-1); 
+						print_array(arr, sizeArr);
+					}
+					break;
+			case 4: return 0; break;
 			default: printf("incorrect choice!\n");
 		}
 	}while(true);

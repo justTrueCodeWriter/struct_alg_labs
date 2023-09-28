@@ -48,9 +48,22 @@ void alg_2() {
 	print_array(arr, amountElements);
 }
 ```
+```cpp
+void alg_3(int arr[], int low, int high)
+{
+    if (low < high) {
+ 
+        int pi = partition(arr, low, high);
+ 
+        alg_3(arr, low, pi - 1);
+        alg_3(arr, pi + 1, high);
+    }
+}
+```
 
 # Analytic
 | **Alg number** | Baddest    | Average    | Best       |
 | ---            | ---        | ---        | ---        |
 | 1              | O(n^2)     | Θ(n^2)     | Ω(n^2)     |
-| 2              | O(nlog(n)) | Θ(nlog(n)) | Ω(nlog(n)) |
+| 2              | O(n^2)     | Θ(n^2))    | Ω(n^2))    |
+| 3              | O(n^2))    | Θ(nlog(n)) | Ω(nlog(n)) |
