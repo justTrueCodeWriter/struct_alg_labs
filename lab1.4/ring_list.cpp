@@ -41,6 +41,22 @@ void push_prev(RingList& ring, int d) {
 
 }
 
+void push_position(RingList& ring) {
+
+	int k = 0;
+	int number = 0;
+
+	printf("k = "); scanf("%d", &k);
+	printf(">>"); scanf("%d", &number);
+
+	for (int i = 0; i < k; i++) {
+		go_next(ring);		
+
+	}
+	push_cur(ring, number);
+		
+}
+
 int pull(RingList& ring) {
 
 	if (ring.current == nullptr) return 0;
@@ -59,6 +75,34 @@ int pull(RingList& ring) {
 	free(e);
 
 	return d;
+
+}
+
+void pull_position(RingList& ring) {
+
+	if (ring.current == nullptr) {
+		printf("Empty list");
+		return;
+	}
+
+	int k = 0;
+
+	printf("k = "); scanf("%d", &k);
+
+	int i = 1;
+	for (Element * cur = ring.current->next; cur != ring.current; cur = cur->next, i++) {
+	
+		if (i == k) {
+			Element * e = cur;
+			cur->prev->next = cur->next;
+			cur->next->prev = cur->prev;
+			cur = cur->next;
+			free(e);
+			break;
+		}
+	
+	}
+	
 
 }
 

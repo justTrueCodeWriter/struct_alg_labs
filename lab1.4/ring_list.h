@@ -14,8 +14,10 @@ struct RingList {
 void push_next(RingList& ring, int d);
 void push_prev(RingList& ring, int d);
 void push_cur(RingList& ring, int d);
+void push_position(RingList& ring);
 
 int pull(RingList& ring);
+void pull_position(RingList& ring);
 
 void go_next(RingList& ring);
 void go_prev(RingList& ring);
