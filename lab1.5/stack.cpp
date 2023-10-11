@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "stack.h"
 
 void Node::setFields() {
@@ -18,7 +19,16 @@ void Stack::push(int id, int age) {
     tail->prev = tail;
     tail = node;
   }
+  count++;
 
 }
 
+void Stack::fill_random(int n) {
 
+  for (int i = 0; i < n; i++) {
+    int id = i;
+    int age = (rand() % (100 - 0)) + 0; 
+    push(id, age);
+  }
+
+}

@@ -1,4 +1,5 @@
 #include <string>
+#include <time.h>
 
 class Node {
 
@@ -29,6 +30,7 @@ class Stack {
     head = tail = nullptr;
     maxsize = size();
     count = 0;
+    srand(time(NULL));
   }
   ~Stack() {
     clear();
@@ -36,7 +38,7 @@ class Stack {
 
   int size();
   void push(int id, int age);
-  void fill_random();
+  void fill_random(int n);
   void fill_from_file(std::string);
   Node* pull();
   Node* look();
