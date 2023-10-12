@@ -1,4 +1,5 @@
 #include <string>
+#include <fstream>
 #include <time.h>
 
 class Node {
@@ -12,9 +13,6 @@ class Node {
   Node* next = nullptr;
   Node* prev = nullptr;
 
-  void setFields();
-
-  private:
   int id = NULL;
   int age = NULL;
 
@@ -28,27 +26,25 @@ class Stack {
 
   Stack() {
     head = tail = nullptr;
-    maxsize = size();
     count = 0;
     srand(time(NULL));
   }
-  ~Stack() {
-    clear();
-  }
+
+  ~Stack(){}; 
 
   int size();
   void push(int id, int age);
   void fill_random(int n);
+  int file_elements_amount(std::string);
   void fill_from_file(std::string);
   Node* pull();
-  Node* look();
   void clear();
-  void clear_n();
+  void clear_n(int n);
   void print();
+  void look();
   void save_to_file(std::string);
 
   private:
-  int maxsize = NULL;
   int count = NULL;
 
 };
