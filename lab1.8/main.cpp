@@ -68,7 +68,6 @@ int main() {
     preOrder(root2);
     std::cout << "--------" << std::endl;
 
-
     Node* mergedRoot = merge(root1, root2);
 
     std::cout << "Слияние двух деревьев: \n";
