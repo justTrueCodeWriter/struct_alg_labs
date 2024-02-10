@@ -70,25 +70,32 @@ public:
 
         return nullptr; // адрес не найден
     }
+
 };
 
+void printFoundHash(Address* foundAddress) {
+  if (foundAddress != nullptr) {
+    cout << "Address found: " << foundAddress->street << ", " << foundAddress->city << ", " << foundAddress->state << ", " << foundAddress->zip << endl;
+  } else {
+    cout << "Address not found." << endl;
+  }
+}
 int main() {
     HashTable hashTable;
 
     Address* address1 = new Address("Street 1", "City 1", "State 1", "11111");
     Address* address2 = new Address("Street 2", "City 2", "State 2", "22222");
     Address* address3 = new Address("Street 3", "City 3", "State 3", "33333");
+    Address* address4 = new Address("Street 4", "City 3", "State 3", "33333");
 
     hashTable.insert(address1);
     hashTable.insert(address2);
     hashTable.insert(address3);
 
-    Address* foundAddress = hashTable.search("22222");
-    if (foundAddress != nullptr) {
-        cout << "Address found: " << foundAddress->street << ", " << foundAddress->city << ", " << foundAddress->state << ", " << foundAddress->zip << endl;
-    } else {
-        cout << "Address not found." << endl;
-    }
+    printFoundHash(hashTable.search("22222"));
+    printFoundHash(hashTable.search("33333"));
+    printFoundHash(hashTable.search("33333"));
+    printFoundHash(hashTable.search("44444"));
 
     return 0;
 }
