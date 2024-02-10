@@ -22,53 +22,53 @@ public:
 
 class HashTable {
 private:
-    Address* table[TABLE_SIZE]; // хеш-таблица
+    Address* table[TABLE_SIZE]; 
 public:
     HashTable() {
         for (int i = 0; i < TABLE_SIZE; i++) {
-            table[i] = nullptr; // инициализируем все ячейки таблицы значением nullptr
+            table[i] = nullptr; 
         }
     }
 
     int hashFunction(string key) {
         int sum = 0;
         for (char c : key) {
-            sum += c; // складываем коды символов строки
+            sum += c; 
         }
-        return sum % TABLE_SIZE; // возвращаем остаток от деления суммы на размер таблицы
+        return sum % TABLE_SIZE; 
     }
 
     int secondHashFunction(string key) {
         int sum = 0;
         for (char c : key) {
-            sum += c; // складываем коды символов строки
+            sum += c; 
         }
-        return 7 - (sum % 7); // возвращаем разность 7 и остатка от деления суммы на 7
+        return 7 - (sum % 7); 
     }
 
     void insert(Address* address) {
-        int index = hashFunction(address->zip); // вычисляем индекс для вставки адреса
-        int step = secondHashFunction(address->zip); // вычисляем шаг для двойного хеширования
+        int index = hashFunction(address->zip); 
+        int step = secondHashFunction(address->zip); 
 
         while (table[index] != nullptr) {
-            index = (index + step) % TABLE_SIZE; // переходим к следующей ячейке с учетом шага
+            index = (index + step) % TABLE_SIZE; 
         }
 
-        table[index] = address; // вставляем адрес в таблицу
+        table[index] = address; 
     }
 
     Address* search(string zip) {
-        int index = hashFunction(zip); // вычисляем индекс для поиска адреса
-        int step = secondHashFunction(zip); // вычисляем шаг для двойного хеширования
+        int index = hashFunction(zip); 
+        int step = secondHashFunction(zip); 
 
         while (table[index] != nullptr) {
             if (table[index]->zip == zip) {
-                return table[index]; // возвращаем найденный адрес
+                return table[index]; 
             }
-            index = (index + step) % TABLE_SIZE; // переходим к следующей ячейке с учетом шага
+            index = (index + step) % TABLE_SIZE; 
         }
 
-        return nullptr; // адрес не найден
+        return nullptr; 
     }
 
 };
@@ -80,6 +80,7 @@ void printFoundHash(Address* foundAddress) {
     cout << "Address not found." << endl;
   }
 }
+
 int main() {
     HashTable hashTable;
 
