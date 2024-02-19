@@ -35,7 +35,7 @@ public:
         for (char c : key) {
             sum += c; 
         }
-        return sum % TABLE_SIZE; 
+        return sum; //% TABLE_SIZE; 
     }
 
     int secondHashFunction(string key) {
@@ -43,7 +43,8 @@ public:
         for (char c : key) {
             sum += c; 
         }
-        return 7 - (sum % 7); 
+        //return 7 - (sum % 7); 
+        return sum;
     }
 
     void insert(Address* address) {
@@ -85,17 +86,18 @@ int main() {
 
     Address* address1 = new Address("Street 1", "City 1", "State 1", "11111");
     Address* address2 = new Address("Street 2", "City 2", "State 2", "22222");
-    Address* address3 = new Address("Street 3", "City 3", "State 3", "33333");
-    Address* address4 = new Address("Street 4", "City 3", "State 3", "33333");
+    Address* address3 = new Address("Street 3", "City 3", "State 3", "33433");
+    Address* address4 = new Address("Street 4", "City 3", "State 3", "34333");
 
     hashTable.insert(address1);
     hashTable.insert(address2);
     hashTable.insert(address3);
+    hashTable.insert(address4);
 
     printFoundHash(hashTable.search("22222"));
     printFoundHash(hashTable.search("33333"));
-    printFoundHash(hashTable.search("33333"));
-    printFoundHash(hashTable.search("44444"));
+    printFoundHash(hashTable.search("33433"));
+    printFoundHash(hashTable.search("34333"));
 
     return 0;
 }
