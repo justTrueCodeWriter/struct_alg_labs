@@ -35,7 +35,7 @@ public:
         for (char c : key) {
             sum += c; 
         }
-        return sum; //% TABLE_SIZE; 
+        return sum % TABLE_SIZE; 
     }
 
     int secondHashFunction(string key) {
@@ -43,8 +43,7 @@ public:
         for (char c : key) {
             sum += c; 
         }
-        //return 7 - (sum % 7); 
-        return sum;
+        return 7 - (sum % 7); 
     }
 
     void insert(Address* address) {
