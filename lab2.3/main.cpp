@@ -9,6 +9,9 @@ struct Rectangle {
     bool intersects(const Rectangle& other) {
         return x1 <= other.x2 && x2 >= other.x1 && y1 <= other.y2 && y2 >= other.y1;
     }
+    bool operator==(const Rectangle& other) {
+        return x1 == other.x1 && x2 == other.x2 && y1 == other.y1 && y2 == other.y2;
+    }
 };
 
 class RTree {
@@ -199,6 +202,7 @@ int main() {
     for (const auto& rect : result) {
         std::cout << "(" << rect.x1 << ", " << rect.y1 << "), (" << rect.x2 << ", " << rect.y2 << ")" << std::endl;
     }
+    tree.remove(rect1);
 
     return 0;
 }
